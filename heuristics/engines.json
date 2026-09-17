@@ -1,0 +1,37 @@
+[
+  {
+    "id": "vag_12_14_tsi_ea111",
+    "name": "VAG 1.2 / 1.4 TSI (2008-2014)",
+    "keywords": ["1.2 tsi", "1.4 tsi", "ea111"],
+    "years": [2008, 2014],
+    "description": "Steuerketten-Längung, Kettenspanner, Rasselgeräusche beim Kaltstart."
+  },
+  {
+    "id": "vag_18_20_tsi_ea888_gen2",
+    "name": "VAG 1.8 / 2.0 TSI (EA888 Gen 2, 2008-2012)",
+    "keywords": ["1.8 tsi", "1.8 tfsi", "2.0 tsi", "2.0 tfsi", "ea888"],
+    "years": [2008, 2012],
+    "description": "Defekte Ölabstreifringe, extremer Ölverbrauch (bis 2L/1000km)."
+  },
+  {
+    "id": "ford_10_ecoboost",
+    "name": "Ford 1.0 EcoBoost (bis 2019)",
+    "keywords": ["1.0 ecoboost"],
+    "years": [2012, 2019],
+    "description": "Im Ölbad laufender Zahnriemen, Auflösung bei falschem Motoröl, verstopfte Ölpumpe."
+  },
+  {
+    "id": "bmw_n47_20d",
+    "name": "BMW N47 2.0d (2007-2014)",
+    "keywords": ["2.0d", "n47", "118d", "120d", "123d", "318d", "320d", "520d", "x1 18d", "x1 20d", "x3 18d", "x3 20d"],
+    "years": [2007, 2014],
+    "description": "Getriebeseitige Steuerkette, Rissgefahr bei Schabegeräuschen."
+  },
+  {
+    "id": "renault_nissan_12_tce",
+    "name": "Renault / Nissan 1.2 TCe (H5Ft)",
+    "keywords": ["1.2 tce", "1.2 dig-t", "h5ft"],
+    "years": [2012, 2018],
+    "description": "Hoher Ölverbrauch, vorzeitiger Motortod durch Unterdruckprobleme."
+  }
+]
