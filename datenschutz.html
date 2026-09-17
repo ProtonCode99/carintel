@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarIntel - Gebrauchtwagen Inspector</title>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-darker: #090d16;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #0284c7;
+      --accent-cyan: #38bdf8;
+      --accent-amber: #f59e0b;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --border-color: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: var(--text-main);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--card-bg);
+      border-color: var(--text-muted);
+    }
+
+    /* Layout & Containers */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    section {
+      padding: 6rem 0;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 0;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .nav-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-brand span {
+      color: var(--accent-cyan);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a.link-item {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav-links a.link-item:hover {
+      color: var(--text-main);
+    }
+
+    .nav-cta {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 8rem 0 4rem;
+      background: radial-gradient(circle at top center, rgba(2, 132, 199, 0.15) 0%, transparent 70%);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 1rem;
+      background-color: rgba(56, 189, 248, 0.1);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p.subtitle {
+      font-size: 1.25rem;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    /* Showcase Section */
+    .showcase {
+      padding: 2rem 0 6rem;
+    }
+
+    .preview-container {
+      position: relative;
+      border-radius: 1rem;
+      padding: 0.5rem;
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(2, 132, 199, 0.2);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 400px;
+    }
+    
+    .preview-container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+      opacity: 0.5;
+    }
+
+    .preview-img {
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      display: block;
+    }
+    
+    .svg-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      background-color: var(--bg-darker);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--border-color);
+    }
+
+    /* Features Section */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      border-color: var(--accent-blue);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+    
+    /* Extra Card to make 3 columns balanced if 4 items */
+    .features-grid.four-items {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 1024px) {
+      .features-grid.four-items {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* Trust Banner */
+    .trust-banner {
+      background: linear-gradient(90deg, var(--bg-darker) 0%, rgba(2, 132, 199, 0.1) 50%, var(--bg-darker) 100%);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .trust-banner h2 {
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+    }
+
+    .trust-banner p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.125rem;
+    }
+
+    /* Legal Sections */
+    .legal-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .legal-section {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .legal-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .legal-section h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: var(--text-main);
+    }
+
+    .legal-section h3 {
+      font-size: 1.25rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: #e2e8f0;
+    }
+
+    .legal-section p {
+      margin-bottom: 1.25rem;
+    }
+
+    .legal-section strong {
+      color: #e2e8f0;
+    }
+    
+    .legal-section code {
+      background-color: var(--bg-darker);
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+      font-family: monospace;
+      color: var(--accent-cyan);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--bg-darker);
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-text {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero-actions {
+        flex-direction: column;
+        padding: 0 1rem;
+      }
+      
+      .features-grid, .features-grid.four-items {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-links {
+        display: none; /* Hide on mobile for simplicity, or implement a toggle */
+      }
+      
+      .mobile-toggle {
+        display: block;
+      }
+      
+      /* Simple mobile menu fallback (always visible at bottom or just hide non-essential links) */
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--bg-darker);
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav id="top">
+    <div class="nav-container">
+      <div class="nav-brand">
+        🚘 CarIntel<span>.</span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="link-item">← Zurück zur Übersicht</a>
+      </div>
+    </div>
+  </nav>
+
+<div class="container legal-container" style="padding: 4rem 0;">
+<section id="datenschutz" class="legal-section">
+      <h2>Datenschutzerklärung</h2>
+      <h3>1. Grundsatz: Zero-Data-Collection</h3>
+      <p>Der Schutz Ihrer persönlichen Daten ist uns ein zentrales Anliegen. Die Browser-Erweiterung „CarIntel“ sowie diese Begleitwebsite wurden nach dem Grundsatz der Datensparsamkeit („Privacy by Design“) entwickelt. Wir betreiben keine eigenen Tracking-Server, keine Analysedienste, keine externen Datenbanken und führen keine serverseitige Erfassung von Nutzerprofilen oder Browser-Verläufen durch.</p>
+
+      <h3>2. Lokale Datenverarbeitung im Browser (chrome.storage.local)</h3>
+      <p>Wenn Sie Fahrzeuge zur Vergleichsliste hinzufügen, werden die entsprechenden öffentlich zugänglichen Inseratsdaten (z. B. Titel, Preis, Kilometerstand, Ausstattungsmerkmale) ausschließlich lokal auf Ihrem Endgerät im internen Speicher Ihres Browsers (chrome.storage.local) gespeichert. Diese Daten verlassen Ihren Browser zu keinem Zeitpunkt und werden niemals an den Entwickler übertragen. Sie können diese Daten jederzeit durch Klick auf „Alle leeren“ oder durch die Deinstallation der Erweiterung rückstandslos löschen.</p>
+
+      <h3>3. Berechtigungen der Erweiterung</h3>
+      <p>Die Erweiterung fordert ausschließlich Berechtigungen für die Domains <code>suchen.mobile.de</code> und <code>autoscout24.de</code> an, um die dort öffentlich dargestellten Fahrzeuginformationen im Browser des Nutzers lesbar zu strukturieren. Ein Zugriff auf sonstige Webseiten, Verläufe oder persönliche Browserdaten findet nicht statt.</p>
+
+      <h3>4. Weiterleitung zu Drittanbietern & Affiliate-Links (carVertical)</h3>
+      <p>Klickt der Nutzer aktiv auf die Schaltfläche „Historie prüfen (carVertical)“, wird er auf die externe Website unseres Kooperationspartners weitergeleitet (carVertical / cV Group). Hierbei gelten die Datenschutzbestimmungen und Cookie-Richtlinien des jeweiligen Anbieters. CarIntel überträgt keine personenbezogenen Daten an carVertical. Sofern eine Fahrgestellnummer (FIN) im Inserat öffentlich lesbar war, wird diese lediglich als URL-Parameter zur automatischen Befüllung des Suchfelds übergeben.</p>
+
+      <h3>5. Ihre Rechte & Kontakt</h3>
+      <p>Da wir keine personenbezogenen Daten von Ihnen erheben oder speichern, liegen uns keine Daten vor, die wir beauskunften, berichtigen oder löschen könnten. Für Fragen zum Datenschutz erreichen Sie uns unter: <a href="mailto:3malalt@gmail.com">3malalt@gmail.com</a></p>
+    </section>
+</div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">Startseite</a>
+      </div>
+      <p class="footer-text">Copyright © 2026 CarIntel. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+</body>
+</html>
