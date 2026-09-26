@@ -188,7 +188,7 @@ function loadComparison() {
         const rate = calculateMonthlyRate(val);
         html += `<td>
           <div style="font-size: 13px; margin-bottom: 6px;">ab ca. <strong>${rate} €</strong> / Mt.*</div>
-          <a href="${window.CARINTEL_CONFIG.AFFILIATE.TARIFCHECK_KREDIT_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-finance" style="background-color: #2563eb; color: #fff; padding: 6px; font-size: 12px; border-radius: 4px; display: inline-block; width: 100%; box-sizing: border-box; text-decoration: none; text-align: center;">Konditionen prüfen ↗</a>
+          <a href="${window.CARINTEL_CONFIG.AFFILIATE.TARIFCHECK_KREDIT_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-conversion" style="width: 100%; margin-top: 8px;">Konditionen prüfen ↗</a>
         </td>`;
       } else {
         html += `<td>-</td>`;
@@ -269,7 +269,7 @@ function loadComparison() {
     cars.forEach(car => {
       html += `<td>
         <a href="${car.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Zum Inserat ↗</a>
-        <a href="${buildCarVerticalUrl(car.vin)}" target="_blank" rel="noopener noreferrer" class="btn btn-carvertical" data-vin="${car.vin || ''}" data-title="${car.title}" style="display: block; text-align: center; text-decoration: none; box-sizing: border-box; background-color: #d97706; color: #ffffff; font-weight: 600; border: none; padding: 7px; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 8px;">🔍 Historie prüfen (carVertical)*</a>
+        <a href="${buildCarVerticalUrl(car.vin)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-warning btn-carvertical" data-vin="${car.vin || ''}" data-title="${car.title}" style="width: 100%; margin-top: 8px;">🔍 Historie prüfen (carVertical)*</a>
         <button class="btn btn-danger remove-btn" data-id="${car.id}" style="margin-top: 8px;">Entfernen</button>
       </td>`;
     });
@@ -291,7 +291,7 @@ function loadComparison() {
       <ul style="list-style: none; padding: 0; margin: 0; color: #94a3b8; font-size: 14px; line-height: 1.6;">
         <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> Fahrzeugpapiere (Zulassungsbescheinigung Teil I & II) vollständig?</label></li>
         <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> Serviceheft lückenlos gepflegt?</label></li>
-        <li style="margin-bottom: 8px;"><label style="display: flex; flex-direction: column; gap: 8px;"><div style="display: flex; align-items: flex-start;"><input type="checkbox" style="margin-right: 8px; margin-top: 4px;"> <span>eVB-Nummer für Kfz-Zulassung beantragen</span></div> <a href="${window.CARINTEL_CONFIG.AFFILIATE.TARIFCHECK_VERSICHERUNG_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-sm hide-print" style="align-self: flex-start; margin-left: 21px; padding: 6px 12px; border: 1px solid #38bdf8; border-radius: 4px; color: #38bdf8; background: transparent; text-decoration: none; font-size: 13px; font-weight: 500; cursor: pointer;">🛡️ eVB-Nummer anfordern (Versicherungsvergleich ↗)</a></label></li>
+        <li style="margin-bottom: 8px;"><label style="display: flex; flex-direction: column; gap: 8px;"><div style="display: flex; align-items: flex-start;"><input type="checkbox" style="margin-right: 8px; margin-top: 4px;"> <span>eVB-Nummer für Kfz-Zulassung beantragen</span></div> <a href="${window.CARINTEL_CONFIG.AFFILIATE.TARIFCHECK_VERSICHERUNG_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary hide-print" style="align-self: flex-start; margin-left: 21px;">🛡️ eVB-Nummer anfordern (Versicherungsvergleich ↗)</a></label></li>
         ${camperChecklist}
       </ul>
     </div>`;

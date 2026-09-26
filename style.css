@@ -1,0 +1,122 @@
+/* Brand Colors & Tokens */
+:root {
+  /* Brand Colors */
+  --brand-primary: #38bdf8;
+  --brand-primary-hover: #0ea5e9;
+  --brand-accent: #8b5cf6;
+  
+  /* Button Metrics */
+  --btn-radius: 8px;
+  --btn-min-height: 44px;
+  --btn-min-height-sm: 36px;
+  
+  /* Shared Base Colors */
+  --bg-dark: #0f172a;
+  --bg-darker: #020617;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --card-bg: #1e293b;
+  --border-color: #334155;
+  --danger-color: #ef4444;
+  --warning-color: #d97706;
+}
+
+/* Global Button Base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--btn-radius);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+  min-height: var(--btn-min-height);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Modifier: Small Buttons (für Tabellen, Listen, Popups) */
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem; /* 14px */
+  min-height: var(--btn-min-height-sm);
+}
+
+/* Primary Button (Main CTAs) */
+.btn-primary {
+  background-color: var(--brand-primary);
+  color: var(--bg-dark);
+  box-shadow: 0 4px 14px 0 rgba(56, 189, 248, 0.39);
+}
+.btn-primary:hover {
+  background-color: var(--brand-primary-hover);
+  color: var(--bg-dark);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.23);
+}
+
+/* Secondary Button (Outlines, Abbrechen, Entfernen) */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-main);
+  border-color: var(--border-color);
+}
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-muted);
+  color: var(--text-main);
+}
+
+/* Conversion / Affiliate Button */
+.btn-conversion {
+  background-color: var(--brand-accent);
+  color: #ffffff;
+}
+.btn-conversion:hover {
+  background-color: #7c3aed;
+  color: #ffffff;
+}
+
+/* Outline Varianten */
+.btn-outline-primary {
+  background-color: transparent;
+  color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+.btn-outline-primary:hover {
+  background-color: rgba(56, 189, 248, 0.1);
+  color: var(--brand-primary);
+}
+
+.btn-outline-conversion {
+  background-color: transparent;
+  color: var(--brand-accent);
+  border-color: var(--brand-accent);
+}
+.btn-outline-conversion:hover {
+  background-color: rgba(139, 92, 246, 0.1);
+  color: var(--brand-accent);
+}
+
+/* Status / Alert Buttons */
+.btn-danger {
+  background-color: transparent;
+  color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+.btn-danger:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger-color);
+}
+
+.btn-warning {
+  background-color: var(--warning-color);
+  color: #ffffff;
+}
+.btn-warning:hover {
+  background-color: #b45309;
+  color: #ffffff;
+}
