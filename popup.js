@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ${badgesHtml}
           <div class="card-actions">
             <a href="${car.url}" target="_blank" class="btn btn-primary">Zum Inserat ↗</a>
+            <a href="${window.CARINTEL_CONFIG.AFFILIATE.TARIFCHECK_KREDIT_URL}" target="_blank" class="btn btn-primary" style="background-color: #2563eb;">Kredit prüfen ↗</a>
             <button class="btn btn-danger remove-btn" data-id="${car.id}">Entfernen</button>
           </div>
         `;

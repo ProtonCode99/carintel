@@ -31,7 +31,12 @@
     listingDate: 0,
     standzeit: null,
     flags: [],
-    url: window.location.href
+    url: window.location.href,
+    isCamper: false,
+    zgg: null,
+    leergewicht: null,
+    nutzlast: null,
+    sitzplaetze: null
   };
 
   let retryCount = 0;
@@ -116,6 +121,42 @@
         }
       }
     } catch (err) {}
+
+    // --- Camper-Detektor & Zuladungs-Radar ---
+    const isCamperMatch = pageText.match(/wohnmobil|kastenwagen|alkoven|teilintegriert|vollintegriert|camper/i) || 
+                          document.title.match(/wohnmobil|kastenwagen|alkoven|teilintegriert|vollintegriert|camper/i);
+    
+    if (isCamperMatch) {
+      carData.isCamper = true;
+      
+      const zggMatch = pageText.match(/zulässiges\s*gesamtgewicht[:\s]*([\d\.]+)\s*kg/i);
+      const leerMatch = pageText.match(/(?:leergewicht|masse im fahrbereiten zustand)[:\s]*([\d\.]+)\s*kg/i);
+      const sitzMatch = pageText.match(/sitzplätze[:\s]*(\d+)/i);
+      
+      if (zggMatch) {
+        carData.zgg = parseFloat(zggMatch[1].replace(/\./g, ''));
+      }
+      if (leerMatch) {
+        carData.leergewicht = parseFloat(leerMatch[2].replace(/\./g, ''));
+      }
+      
+      carData.sitzplaetze = sitzMatch ? parseInt(sitzMatch[1], 10) : 4;
+      
+      if (carData.zgg && carData.leergewicht) {
+        carData.nutzlast = carData.zgg - carData.leergewicht;
+        const mindestbedarf = (carData.sitzplaetze * 75) + 120;
+        
+        if (carData.nutzlast < mindestbedarf) {
+          carData.flags.push({ type: 'warning', text: `🚨 Akute Überladungsgefahr! Nutzlast (${carData.nutzlast} kg) unter Mindestbedarf (${mindestbedarf} kg) für ${carData.sitzplaetze} Personen + Grundausstattung.` });
+        } else if (carData.nutzlast < 400) {
+          carData.flags.push({ type: 'warning', text: `⚠️ Wenig Zuladung (${carData.nutzlast} kg). Kaum Spielraum für Sonderausstattung (Markise, Solar etc.).` });
+        } else {
+          carData.flags.push({ type: 'success', text: `✅ Ausreichend Zuladung (${carData.nutzlast} kg).` });
+        }
+      } else {
+        carData.flags.push({ type: 'warning', text: `⚠️ Leergewicht / ZGG fehlt! Unbedingt Feld G im Fahrzeugschein und Wiegeschein vor Ort prüfen.` });
+      }
+    }
 
     if (!hasRisks) {
       carData.flags.unshift({ type: 'success', text: "✅ Keine Serienfehler bekannt" });
@@ -525,7 +566,7 @@
 
     const hasVin = !!data.vin;
     const vinActionHtml = hasVin
-      ? `<a href="https://www.carvertical.com/de/pre-check?vin=${encodeURIComponent(data.vin)}&a=affiliate" target="_blank" rel="noopener noreferrer" class="vin-btn">🔍 FIN prüfen (CarVertical Affiliate)</a>`
+      ? `<a href="${window.CARINTEL_CONFIG.affiliates.carvertical.getVinCheckUrl(data.vin)}" target="_blank" rel="noopener noreferrer" class="vin-btn">🔍 FIN prüfen (CarVertical)</a>`
       : `<button class="action-btn vin-btn" id="ci-request-vin">FIN beim Händler anfordern</button>`;
 
     hud.innerHTML = `
@@ -544,6 +585,19 @@
         ${standzeitHtml}
         ${badgesHtml}
       </div>
+      ${carData.isCamper ? `
+      <div class="camper-radar" style="margin-top: 12px; padding: 10px; background: rgba(30,41,59,0.8); border: 1px solid #334155; border-radius: 6px;">
+        <div style="font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          ⚖️ Zuladungs-Radar
+        </div>
+        ${carData.nutzlast !== null 
+          ? `<div style="font-size: 13px; color: ${carData.nutzlast < ((carData.sitzplaetze * 75) + 120) ? '#ef4444' : (carData.nutzlast < 400 ? '#f59e0b' : '#22c55e')}">
+               <strong>${carData.nutzlast} kg Nutzlast verfügbar</strong><br>
+               (ZGG: ${carData.zgg} kg / Leer: ${carData.leergewicht} kg)
+             </div>`
+          : `<div style="font-size: 13px; color: #f59e0b;">Gewichte unvollständig. Feld G prüfen!</div>`
+        }
+      </div>` : ''}
       <div class="actions">
         <button class="action-btn save-btn" id="ci-save">📌 In Vergleichsliste speichern</button>
         ${vinActionHtml}
@@ -592,6 +646,10 @@
       standzeit: data.standzeit,
       flags: data.flags,
       url: data.url,
+      isCamper: data.isCamper,
+      zgg: data.zgg,
+      leergewicht: data.leergewicht,
+      nutzlast: data.nutzlast,
       savedAt: Date.now()
     };
 

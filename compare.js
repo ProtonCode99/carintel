@@ -1,11 +1,3 @@
-const AFFILIATE_CONFIG = {
-  CARVERTICAL_BASE_URL: "https://www.carvertical.com/de/landing/v3",
-  CARVERTICAL_VOUCHER: "",
-  FINANCE_URL: "",
-  CAR_SELL_URL: "",
-  INSURANCE_URL: ""
-};
-
 function calculateMonthlyRate(priceNumeric) {
   if (!priceNumeric || priceNumeric < 3000) return null;
   const months = 60;
@@ -16,18 +8,7 @@ function calculateMonthlyRate(priceNumeric) {
 }
 
 function buildCarVerticalUrl(vin) {
-  const cleanVin = vin ? encodeURIComponent(vin.trim().toUpperCase()) : "";
-  const params = new URLSearchParams();
-  if (AFFILIATE_CONFIG.CARVERTICAL_VOUCHER && AFFILIATE_CONFIG.CARVERTICAL_VOUCHER !== "PENDING_APPROVAL") {
-    params.append("voucher", AFFILIATE_CONFIG.CARVERTICAL_VOUCHER);
-    params.append("utm_source", "affiliate");
-    params.append("utm_medium", "carintel_extension");
-  }
-  if (cleanVin) {
-    params.append("vin", cleanVin);
-  }
-  const queryString = params.toString();
-  return queryString ? `${AFFILIATE_CONFIG.CARVERTICAL_BASE_URL}?${queryString}` : AFFILIATE_CONFIG.CARVERTICAL_BASE_URL;
+  return window.CARINTEL_CONFIG.affiliates.carvertical.getVinCheckUrl(vin);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -166,7 +147,7 @@ function loadComparison() {
     let kms = cars.map(c => parseNumber(c.mileage)).filter(n => n !== null);
     let bestKm = kms.length > 0 ? Math.min(...kms) : null;
 
-    let html = `<a href="${AFFILIATE_CONFIG.CAR_SELL_URL}" target="_blank" rel="noopener noreferrer" class="action-banner" style="display: block; background: #1e293b; color: #e2e8f0; text-align: center; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-decoration: none; font-weight: 600; border: 1px solid #334155;">
+    let html = `<a href="#" target="_blank" rel="noopener noreferrer" class="action-banner" style="display: block; background: #1e293b; color: #e2e8f0; text-align: center; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-decoration: none; font-weight: 600; border: 1px solid #334155;">
       🚗 Altes Auto abgeben? <span style="color: #38bdf8;">Kostenlose Online-Bewertung erhalten ↗</span>
     </a>`;
     html += `<table>
@@ -210,7 +191,7 @@ function loadComparison() {
         const rate = calculateMonthlyRate(val);
         html += `<td>
           <div style="font-size: 13px; margin-bottom: 6px;">ab ca. <strong>${rate} €</strong> / Mt.*</div>
-          <a href="${AFFILIATE_CONFIG.FINANCE_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-finance" style="background-color: #2563eb; color: #fff; padding: 6px; font-size: 12px; border-radius: 4px; display: inline-block; width: 100%; box-sizing: border-box; text-decoration: none; text-align: center;">Konditionen prüfen ↗</a>
+          <a href="${window.CARINTEL_CONFIG.AFFILIATE.TARIFCHECK_KREDIT_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-finance" style="background-color: #2563eb; color: #fff; padding: 6px; font-size: 12px; border-radius: 4px; display: inline-block; width: 100%; box-sizing: border-box; text-decoration: none; text-align: center;">Konditionen prüfen ↗</a>
         </td>`;
       } else {
         html += `<td>-</td>`;
@@ -297,12 +278,24 @@ function loadComparison() {
     });
     html += `</tr></tbody></table>`;
 
+    const hasCamper = cars.some(car => car.isCamper);
+    let camperChecklist = '';
+    if (hasCamper) {
+      camperChecklist = `
+        <li style="margin-bottom: 8px; margin-top: 16px; font-weight: bold; color: #f8fafc;">Wohnmobil- & Camper-Zusatzprüfung</li>
+        <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> <strong>Feuchtigkeitsprüfung:</strong> Systematische Messung an Fensterausschnitten, Dachhauben und Übergängen der Bodenplatte.</label></li>
+        <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> <strong>Zuladungsabgleich:</strong> Wiegeschein oder Feld G (Leergewicht) inklusive montierter Extras gegenprüfen.</label></li>
+        <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> <strong>Gasanlage:</strong> Prüfung nach G 607 / Gültigkeit des Druckminderers und Schlauchs.</label></li>
+      `;
+    }
+
     html += `<div class="checklist-section" style="margin-top: 32px; background: #1e293b; padding: 20px; border-radius: 8px;">
       <h3 style="margin-top: 0; color: #e2e8f0; font-size: 16px;">✅ Probefahrt- / Kaufentscheider-Checkliste</h3>
       <ul style="list-style: none; padding: 0; margin: 0; color: #94a3b8; font-size: 14px; line-height: 1.6;">
         <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> Fahrzeugpapiere (Zulassungsbescheinigung Teil I & II) vollständig?</label></li>
         <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> Serviceheft lückenlos gepflegt?</label></li>
-        <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> eVB-Nummer für Kfz-Zulassung beantragen <a href="${AFFILIATE_CONFIG.INSURANCE_URL}" target="_blank" rel="noopener noreferrer" class="hide-print" style="color: #38bdf8; text-decoration: none;">(Tarifvergleich ↗)</a></label></li>
+        <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> eVB-Nummer für Kfz-Zulassung beantragen <a href="#" target="_blank" rel="noopener noreferrer" class="hide-print" style="color: #38bdf8; text-decoration: none;">(Tarifvergleich ↗)</a></label></li>
+        ${camperChecklist}
       </ul>
     </div>`;
 
