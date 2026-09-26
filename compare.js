@@ -147,10 +147,7 @@ function loadComparison() {
     let kms = cars.map(c => parseNumber(c.mileage)).filter(n => n !== null);
     let bestKm = kms.length > 0 ? Math.min(...kms) : null;
 
-    let html = `<a href="#" target="_blank" rel="noopener noreferrer" class="action-banner" style="display: block; background: #1e293b; color: #e2e8f0; text-align: center; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-decoration: none; font-weight: 600; border: 1px solid #334155;">
-      🚗 Altes Auto abgeben? <span style="color: #38bdf8;">Kostenlose Online-Bewertung erhalten ↗</span>
-    </a>`;
-    html += `<table>
+    let html = `<table>
       <thead>
         <tr>
           <th>Fahrzeug</th>`;
@@ -294,7 +291,7 @@ function loadComparison() {
       <ul style="list-style: none; padding: 0; margin: 0; color: #94a3b8; font-size: 14px; line-height: 1.6;">
         <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> Fahrzeugpapiere (Zulassungsbescheinigung Teil I & II) vollständig?</label></li>
         <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> Serviceheft lückenlos gepflegt?</label></li>
-        <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> eVB-Nummer für Kfz-Zulassung beantragen <a href="#" target="_blank" rel="noopener noreferrer" class="hide-print" style="color: #38bdf8; text-decoration: none;">(Tarifvergleich ↗)</a></label></li>
+        <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> eVB-Nummer für Kfz-Zulassung beantragen <a href="${window.CARINTEL_CONFIG.AFFILIATE.TARIFCHECK_VERSICHERUNG_URL}" target="_blank" rel="noopener noreferrer" class="hide-print" style="color: #38bdf8; text-decoration: none;">(Tarifvergleich ↗)</a></label></li>
         ${camperChecklist}
       </ul>
     </div>`;
