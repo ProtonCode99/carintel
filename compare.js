@@ -291,7 +291,7 @@ function loadComparison() {
       <ul style="list-style: none; padding: 0; margin: 0; color: #94a3b8; font-size: 14px; line-height: 1.6;">
         <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> Fahrzeugpapiere (Zulassungsbescheinigung Teil I & II) vollständig?</label></li>
         <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> Serviceheft lückenlos gepflegt?</label></li>
-        <li style="margin-bottom: 8px;"><label><input type="checkbox" style="margin-right: 8px;"> eVB-Nummer für Kfz-Zulassung beantragen <a href="${window.CARINTEL_CONFIG.AFFILIATE.TARIFCHECK_VERSICHERUNG_URL}" target="_blank" rel="noopener noreferrer" class="hide-print" style="color: #38bdf8; text-decoration: none;">(Tarifvergleich ↗)</a></label></li>
+        <li style="margin-bottom: 8px;"><label style="display: flex; flex-direction: column; gap: 8px;"><div style="display: flex; align-items: flex-start;"><input type="checkbox" style="margin-right: 8px; margin-top: 4px;"> <span>eVB-Nummer für Kfz-Zulassung beantragen</span></div> <a href="${window.CARINTEL_CONFIG.AFFILIATE.TARIFCHECK_VERSICHERUNG_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-sm hide-print" style="align-self: flex-start; margin-left: 21px; padding: 6px 12px; border: 1px solid #38bdf8; border-radius: 4px; color: #38bdf8; background: transparent; text-decoration: none; font-size: 13px; font-weight: 500; cursor: pointer;">🛡️ eVB-Nummer anfordern (Versicherungsvergleich ↗)</a></label></li>
         ${camperChecklist}
       </ul>
     </div>`;
