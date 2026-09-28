@@ -7,9 +7,7 @@ function calculateMonthlyRate(priceNumeric) {
   return Math.round(rate);
 }
 
-function buildCarVerticalUrl(vin) {
-  return window.CARINTEL_CONFIG.affiliates.carvertical.getVinCheckUrl(vin);
-}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   loadComparison();
@@ -269,7 +267,7 @@ function loadComparison() {
     cars.forEach(car => {
       html += `<td>
         <a href="${car.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Zum Inserat ↗</a>
-        <a href="${buildCarVerticalUrl(car.vin)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-warning btn-carvertical" data-vin="${car.vin || ''}" data-title="${car.title}" style="width: 100%; margin-top: 8px;">🔍 Historie prüfen (carVertical)*</a>
+        <a href="${window.CARINTEL_CONFIG.AFFILIATE.getCarVerticalUrl(car.vin)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-warning btn-carvertical" data-vin="${car.vin || ''}" data-title="${car.title}" style="width: 100%; margin-top: 8px;">🔍 Historie prüfen (carVertical)*</a>
         <button class="btn btn-danger remove-btn" data-id="${car.id}" style="margin-top: 8px;">Entfernen</button>
       </td>`;
     });
@@ -338,7 +336,7 @@ function loadComparison() {
             const originalText = e.currentTarget.textContent;
             e.currentTarget.textContent = 'Anfragetext kopiert!';
             setTimeout(() => { e.currentTarget.textContent = originalText; }, 3000);
-            window.open(buildCarVerticalUrl(''), '_blank', 'noopener,noreferrer');
+            window.open(window.CARINTEL_CONFIG.AFFILIATE.getCarVerticalUrl(''), '_blank', 'noopener,noreferrer');
           });
         }
         // Bei vorhandener FIN erfolgt der Seitenaufruf automatisch über das href-Attribut.
