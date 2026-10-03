@@ -1,3 +1,4 @@
+console.log("CarIntel Extension started in " + window.location.href);
 (async function() {
   if (document.getElementById('car-intel-hud-script-loaded')) return;
   const marker = document.createElement('div');

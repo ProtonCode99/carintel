@@ -216,7 +216,19 @@ function loadComparison() {
     // Row: Standzeit & Preisbewertung
     html += `<tr><th>Preisbewertung / Standzeit</th>`;
     cars.forEach(car => {
-      const standzeitTxt = car.standzeit !== null ? car.standzeit + ' Tage' : 'Aktuell gelistet';
+      let standzeitTxt = 'Aktuell gelistet';
+      if (car.standzeit !== null && car.standzeit !== undefined) {
+        standzeitTxt = car.standzeit + ' Tage';
+      } else if (car.savedAt) {
+        const days = Math.floor((Date.now() - Number(car.savedAt)) / (1000 * 60 * 60 * 24));
+        if (days === 0) {
+          standzeitTxt = "Heute gelistet";
+        } else if (days === 1) {
+          standzeitTxt = "Seit 1 Tag gelistet";
+        } else {
+          standzeitTxt = `Seit ${days} Tagen gelistet`;
+        }
+      }
       let ratingStr = '';
       if (car.priceRating) {
         let badgeColor = '🟢';
@@ -326,18 +338,30 @@ function loadComparison() {
 
     document.querySelectorAll('.btn-carvertical').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const vin = e.currentTarget.getAttribute('data-vin');
-        const title = e.currentTarget.getAttribute('data-title');
+        const targetBtn = e.currentTarget;
+        const vin = targetBtn?.getAttribute('data-vin')?.trim() || '';
+        const title = targetBtn?.getAttribute('data-title') || '';
         
-        if (!vin || vin === '') {
+        if (!vin) {
           e.preventDefault(); // Verhindere Standard-Link-Navigation
           const message = `Guten Tag,\n\nich interessiere mich für Ihr Fahrzeug (${title}).\nKönnten Sie mir bitte die Fahrgestellnummer (FIN / VIN) zukommen lassen, damit ich die Historie prüfen kann?\n\nVielen Dank im Voraus!`;
-          navigator.clipboard.writeText(message).then(() => {
-            const originalText = e.currentTarget.textContent;
-            e.currentTarget.textContent = 'Anfragetext kopiert!';
-            setTimeout(() => { e.currentTarget.textContent = originalText; }, 3000);
-            window.open(window.CARINTEL_CONFIG.AFFILIATE.getCarVerticalUrl(''), '_blank', 'noopener,noreferrer');
-          });
+          
+          const openFallback = () => {
+            const url = window.CARINTEL_CONFIG?.AFFILIATE?.CARVERTICAL_BASE_URL || window.CARINTEL_CONFIG?.AFFILIATE?.getCarVerticalUrl('');
+            window.open(url, '_blank', 'noopener,noreferrer');
+          };
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(message).then(() => {
+              if (targetBtn) {
+                const originalText = targetBtn?.textContent || '';
+                targetBtn.textContent = 'Anfragetext kopiert!';
+                setTimeout(() => { if (targetBtn) targetBtn.textContent = originalText; }, 3000);
+              }
+            }).catch(console.error).finally(openFallback);
+          } else {
+            openFallback();
+          }
         }
         // Bei vorhandener FIN erfolgt der Seitenaufruf automatisch über das href-Attribut.
       });
