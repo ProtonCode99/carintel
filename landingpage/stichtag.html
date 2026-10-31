@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kfz-Stichtag 30.11. – Sonderkündigungs-Rechner & PDF (§ 40 VVG) | CarIntel</title>
+  <meta name="description" content="Kfz-Versicherung erhöht? Prüfe in 10 Sekunden dein Sonderkündigungsrecht nach § 40 VVG, berechne die versteckte Beitragserhöhung und erstelle kostenlos dein Kündigungs-PDF – 100 % lokal im Browser.">
+  <meta property="og:title" content="Kfz-Beitragsschock? Sonderkündigungs-Rechner + PDF-Generator">
+  <meta property="og:description" content="Versteckte Beitragserhöhung prüfen, bis zu 850 € sparen und Kündigungs-PDF nach § 40 VVG erstellen.">
+  <meta property="og:image" content="assets/Ki.png">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://carintel.de/stichtag.html">
+  <style>
+    :root {
+      --bg-dark: #0f172a; --bg-darker: #020617; --card-bg: #1e293b; --border-color: #334155;
+      --text-main: #f8fafc; --text-muted: #94a3b8;
+      --cyan: #38bdf8; --cyan-strong: #0ea5e9;
+      --emerald: #10b981; --emerald-strong: #059669;
+      --red: #f87171; --amber: #fbbf24;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 50% -200px, rgba(56,189,248,0.15), transparent 70%), var(--bg-dark);
+      color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--cyan); text-decoration: none; }
+    .container { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 1.25rem; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(2,6,23,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+    .nav-brand { font-weight: 800; font-size: 1.15rem; color: var(--text-main); }
+    .nav-brand span { color: var(--text-muted); font-weight: 500; font-size: 0.85rem; margin-left: 6px; }
+
+    .hero { text-align: center; padding: 3rem 0 2rem; }
+    .countdown {
+      display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 8px; align-items: center;
+      background: rgba(248,113,113,0.12); border: 1px solid rgba(248,113,113,0.45); color: #fecaca;
+      padding: 8px 16px; border-radius: 999px; font-weight: 700; font-size: 0.9rem; margin-bottom: 1.25rem;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    .countdown strong { color: #fff; font-size: 1.05rem; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(248,113,113,0.35); } 50% { box-shadow: 0 0 0 10px rgba(248,113,113,0); } }
+    h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); line-height: 1.15; font-weight: 800; margin-bottom: 1rem;
+      background: linear-gradient(135deg, #f8fafc 30%, var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .subtitle { color: var(--text-muted); font-size: 1.05rem; max-width: 680px; margin: 0 auto; }
+    .vvg-note { margin-top: 1rem; font-size: 0.9rem; color: #bae6fd; }
+
+    .card { background: linear-gradient(180deg, rgba(30,41,59,0.95), rgba(15,23,42,0.95)); border: 1px solid var(--border-color);
+      border-radius: 18px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 25px 50px -20px rgba(0,0,0,0.6); }
+    .card h2 { font-size: 1.3rem; margin-bottom: 0.35rem; }
+    .card .lead { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.25rem; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 640px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; color: #e2e8f0; }
+    input[type=number], input[type=text], input[type=date] {
+      width: 100%; min-height: 54px; padding: 12px 14px; font-size: 1.1rem; color: var(--text-main);
+      background: var(--bg-darker); border: 1px solid var(--border-color); border-radius: 12px; outline: none;
+      transition: border-color .2s, box-shadow .2s; color-scheme: dark;
+    }
+    input:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(56,189,248,0.25); }
+    .check { display: flex; gap: 12px; align-items: flex-start; background: var(--bg-darker); border: 1px dashed var(--border-color);
+      border-radius: 12px; padding: 14px; cursor: pointer; font-weight: 500; }
+    .check input { width: 24px; height: 24px; flex-shrink: 0; accent-color: var(--cyan); margin-top: 2px; }
+
+    .result { margin-top: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem; }
+    .stat { background: var(--bg-darker); border: 1px solid var(--border-color); border-radius: 14px; padding: 14px; transition: transform .2s; }
+    .stat:hover { transform: translateY(-2px); }
+    .stat .k { font-size: 0.78rem; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); }
+    .stat .v { font-size: 1.5rem; font-weight: 800; }
+    .stat.red { border-color: rgba(248,113,113,0.5); } .stat.red .v { color: var(--red); }
+    .stat.green { border-color: rgba(16,185,129,0.5); } .stat.green .v { color: #34d399; }
+    .stat.cyan .v { color: var(--cyan); font-size: 1.2rem; }
+    .verdict { margin-top: 0.75rem; padding: 12px 14px; border-radius: 12px; font-size: 0.92rem; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.3); color: #e0f2fe; }
+    .verdict.alert { background: rgba(248,113,113,0.1); border-color: rgba(248,113,113,0.45); color: #fee2e2; }
+
+    .btn { display: flex; align-items: center; justify-content: center; text-align: center; gap: 8px; width: 100%; min-height: 58px;
+      padding: 14px 18px; border-radius: 14px; font-weight: 800; font-size: 1.02rem; border: none; cursor: pointer;
+      transition: transform .15s, box-shadow .2s, filter .2s; text-decoration: none; }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .btn:active { transform: translateY(0); }
+    .btn-emerald { background: linear-gradient(135deg, var(--emerald), var(--emerald-strong)); color: #fff; box-shadow: 0 12px 30px -10px rgba(16,185,129,0.7); }
+    .btn-cyan { background: linear-gradient(135deg, var(--cyan), var(--cyan-strong)); color: #022c3d; box-shadow: 0 12px 30px -10px rgba(56,189,248,0.6); }
+    .btn-outline { background: transparent; color: var(--amber); border: 2px solid var(--amber); }
+    .btn-wa { background: #25d366; color: #052e16; }
+    .tip { margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+    .cta-wrap { margin-top: 1.25rem; }
+    .privacy { display: inline-block; font-size: 0.8rem; color: #6ee7b7; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.35); padding: 4px 10px; border-radius: 999px; margin-bottom: 1rem; }
+    .xmas { border-color: rgba(251,191,36,0.4); background: linear-gradient(180deg, rgba(120,53,15,0.25), rgba(15,23,42,0.95)); }
+    .ad-tag { font-size: 0.7rem; color: var(--text-muted); text-align: center; margin-top: 6px; }
+
+    footer { border-top: 1px solid var(--border-color); padding: 2rem 0 3rem; margin-top: 2rem; background: var(--bg-darker); }
+    .footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .footer-links a { color: var(--text-muted); }
+    .footer-text { font-size: 0.8rem; color: var(--text-muted); }
+    .footer-copyright { font-size: 0.8rem; color: #64748b; margin-top: 1rem; }
+
+    #print-letter { display: none; }
+    @media print {
+      body { background: #fff !important; color: #000 !important; }
+      body > *:not(#print-letter) { display: none !important; }
+      #print-letter { display: block !important; font-family: Georgia, 'Times New Roman', serif; font-size: 11.5pt; line-height: 1.5; color: #000; padding: 0; }
+      .hide-print { display: none !important; }
+      @page { margin: 22mm 20mm; }
+    }
+    .letter-sender { font-size: 9pt; text-decoration: underline; margin-bottom: 8mm; }
+    .letter-recipient { min-height: 30mm; margin-bottom: 8mm; }
+    .letter-date { text-align: right; margin-bottom: 8mm; }
+    .letter-subject { font-weight: bold; margin-bottom: 6mm; }
+    #print-letter p { margin-bottom: 4mm; color: #000; }
+  </style>
+</head>
+<body>
+
+  <nav id="top">
+    <div class="container nav-container">
+      <a href="./index.html" class="nav-brand">🚘 CarIntel <span>Kfz-Stichtag</span></a>
+      <a href="#rechner" style="font-weight:700;">Zum Rechner ↓</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- A. Hero -->
+    <header class="hero container">
+      <div class="countdown" id="countdown-badge">⏳ <span id="countdown-text">Stichtag 30.11.</span></div>
+      <h1>Kfz-Beitragsschock 2026/2027? Prüfe dein Sonderkündigungsrecht in 10 Sekunden</h1>
+      <p class="subtitle">Für 7,4 Mio. Fahrer steigen die Typklassen. Berechne deine versteckte Preiserhöhung, sichere dir bis zu 850 € Ersparnis für dein Weihnachts-Budget und erstelle sofort dein Kündigungs-PDF.</p>
+      <p class="vvg-note">💡 Beitrag erhöht? Nach <strong>§ 40 VVG</strong> kannst du auch nach dem 30.11. – also im gesamten Dezember – kündigen (1 Monat ab Erhalt der Rechnung).</p>
+    </header>
+
+    <div class="container">
+      <!-- B. Rechner -->
+      <section class="card" id="rechner" aria-labelledby="rechner-title">
+        <h2 id="rechner-title">⚡ 10-Sekunden-Beitrags-Check</h2>
+        <p class="lead">Live-Berechnung – ohne Reload, ohne Anmeldung.</p>
+        <div class="grid grid-2">
+          <div>
+            <label for="old-premium">Alter Beitrag (€ / Jahr oder Halbjahr)</label>
+            <input type="number" id="old-premium" inputmode="decimal" min="0" step="0.01" placeholder="z. B. 620">
+          </div>
+          <div>
+            <label for="new-premium">Neuer Beitrag laut aktueller Rechnung (€)</label>
+            <input type="number" id="new-premium" inputmode="decimal" min="0" step="0.01" placeholder="z. B. 745">
+          </div>
+          <div>
+            <label for="letter-date">Datum des Erhöhungsbriefs</label>
+            <input type="date" id="letter-date">
+          </div>
+          <label class="check" for="sf-check">
+            <input type="checkbox" id="sf-check">
+            <span>Meine SF-Klasse (Schadenfreiheitsrabatt) ist gestiegen, aber der Beitrag wurde nicht günstiger</span>
+          </label>
+        </div>
+
+        <div class="result" id="result" aria-live="polite">
+          <div class="stat red"><div class="k">Mehrbelastung</div><div class="v" id="r-diff">– €</div></div>
+          <div class="stat red"><div class="k">Erhöhung</div><div class="v" id="r-pct">– %</div></div>
+          <div class="stat cyan"><div class="k">Kündigen bis</div><div class="v" id="r-deadline">30.11.</div></div>
+          <div class="stat green"><div class="k">🎄 Weihnachts-Plus</div><div class="v" id="r-saving">bis 850 €</div></div>
+        </div>
+        <div class="verdict" id="r-verdict">Gib deinen alten und neuen Beitrag ein – wir prüfen sofort, ob ein Sonderkündigungsrecht besteht.</div>
+
+        <!-- C. Primary CTA -->
+        <div class="cta-wrap">
+          <a href="#" id="cta-versicherung" class="btn btn-emerald dynamic-versicherungs-link" target="_blank" rel="noopener noreferrer sponsored">🛡️ Schritt 1: Neuen Tarif berechnen &amp; bis zu 850 € sparen (Tarifvergleich ↗)</a>
+          <div class="ad-tag">[Partnerlink]</div>
+          <p class="tip">Tipp: Vergleiche und sichere dir zuerst deinen günstigeren Tarif (inkl. kostenlosem 1-Klick-Wechselservice), bevor du die Kündigung an deinen alten Versicherer absendest.</p>
+        </div>
+      </section>
+
+      <!-- D. PDF Generator -->
+      <section class="card" id="kuendigung" aria-labelledby="pdf-title">
+        <h2 id="pdf-title">📄 1-Klick Sonderkündigungs-PDF</h2>
+        <span class="privacy">🔒 100 % lokal – Daten verlassen niemals dein Gerät</span>
+        <div class="grid grid-2">
+          <div><label for="f-name">Vor- und Nachname</label><input type="text" id="f-name" autocomplete="name" placeholder="Max Mustermann"></div>
+          <div><label for="f-street">Straße &amp; Hausnummer</label><input type="text" id="f-street" autocomplete="street-address" placeholder="Musterstraße 1"></div>
+          <div><label for="f-city">PLZ &amp; Ort</label><input type="text" id="f-city" placeholder="12345 Musterstadt"></div>
+          <div><label for="f-plate">Kfz-Kennzeichen</label><input type="text" id="f-plate" placeholder="B-AB 1234" style="text-transform:uppercase"></div>
+          <div><label for="f-policy">Versicherungsschein-Nummer</label><input type="text" id="f-policy" placeholder="KH-123456789"></div>
+          <div><label for="f-insurer">Name der bisherigen Versicherung</label><input type="text" id="f-insurer" placeholder="Muster Versicherung AG"></div>
+        </div>
+        <div class="cta-wrap">
+          <button type="button" id="btn-print" class="btn btn-cyan">📄 Schritt 2: Rechtssicheres Sonderkündigungs-PDF (§ 40 VVG) drucken / speichern</button>
+          <div class="hide-print" style="margin-top:12px; font-size:0.88rem; color:var(--text-muted);">
+            Im Druckdialog „Als PDF speichern“ wählen. Noch keinen neuen Tarif?
+            <a href="#" class="dynamic-versicherungs-link" target="_blank" rel="noopener noreferrer sponsored">Jetzt günstigeren Kfz-Tarif sichern ↗</a> [Partnerlink]
+          </div>
+        </div>
+      </section>
+
+      <!-- E. Weihnachts-Budget -->
+      <section class="card xmas" aria-labelledby="xmas-title">
+        <h2 id="xmas-title">🎄 Weihnachts-Wunschliste oder Fahrzeugwechsel geplant?</h2>
+        <p class="lead">Zahle für größere Weihnachtswünsche oder Reparaturen keine 14 % Dispo-Zinsen. Prüfe hier zinsgünstige Ratenkredite im unabhängigen Vergleich.</p>
+        <a href="#" id="cta-kredit" class="btn btn-outline dynamic-kredit-link" target="_blank" rel="noopener noreferrer sponsored">💳 Günstige Konditionen &amp; Ratenkredite prüfen ↗</a>
+        <div class="ad-tag">[Werbung] · Repräsentatives Beispiel siehe Fußzeile*</div>
+      </section>
+
+      <!-- F. WhatsApp -->
+      <section style="margin-bottom:1.5rem;">
+        <a href="#" id="btn-whatsapp" class="btn btn-wa" target="_blank" rel="noopener noreferrer">📲 Rechner per WhatsApp an Freunde &amp; Familie schicken</a>
+      </section>
+    </div>
+  </main>
+
+  <!-- G. Footer (aus index.html) -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="#top">Nach oben</a>
+        <a href="index.html">Startseite</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="impressum.html">Impressum</a>
+      </div>
+      <p class="footer-text">
+        *Mit [Werbung] / [Partnerlink] oder Affiliate-Symbolen gekennzeichnete Links sind Provisions-Links. Wenn Sie auf einen solchen Link klicken und auf der Zielseite eine Aktion ausführen, erhalten wir unter Umständen eine Provision. Für Sie entstehen dadurch keine Nachteile oder zusätzliche Kosten.
+      </p>
+      <p class="footer-legal-note" style="font-size: 0.75rem; color: #888; margin-top: 8px;">
+        * Repräsentatives 2/3-Beispiel gem. § 17 PAngV: Nettodarlehensbetrag 10.000 €, effektiver Jahreszins 6,99 %, gebundener Sollzins 6,78 % p.a., Laufzeit 60 Monate, monatliche Rate 197,96 €, Gesamtbetrag 11.877,60 €. Darlehensvermittlung erfolgt über externe Finanzierungspartner.
+      </p>
+      <p class="footer-text" style="margin-top:8px;">Hinweis: Dieses Tool und die Musterschreiben ersetzen keine Rechtsberatung. Ersparnis-Angaben sind unverbindliche Richtwerte.</p>
+      <div class="footer-copyright">Copyright © 2026 CarIntel. Alle Rechte vorbehalten.</div>
+    </div>
+  </footer>
+
+  <!-- Druckvorlage Kündigungsschreiben -->
+  <div id="print-letter" aria-hidden="true">
+    <div class="letter-sender" id="l-sender"></div>
+    <div class="letter-recipient" id="l-recipient"></div>
+    <div class="letter-date" id="l-date"></div>
+    <div class="letter-subject" id="l-subject"></div>
+    <p>Sehr geehrte Damen und Herren,</p>
+    <p>hiermit kündige ich den oben genannten Kfz-Versicherungsvertrag fristgerecht zum Ablauf des Versicherungsjahres, hilfsweise zum nächstmöglichen Zeitpunkt.</p>
+    <p id="l-extra">Hilfsweise mache ich von meinem Sonderkündigungsrecht nach § 40 VVG Gebrauch und kündige den Vertrag außerordentlich wegen der mir mitgeteilten Beitragserhöhung zum Zeitpunkt des Wirksamwerdens der Erhöhung.</p>
+    <p>Bitte senden Sie mir eine schriftliche Bestätigung der Kündigung unter Angabe des Beendigungszeitpunkts zu. Einer Weitergabe meiner Daten zu Werbezwecken sowie einer telefonischen Kontaktaufnahme zur Rückgewinnung widerspreche ich.</p>
+    <p>Mit freundlichen Grüßen</p>
+    <p style="margin-top:16mm;">______________________________<br><span id="l-sign"></span></p>
+  </div>
+
+  <script src="./config.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      var FALLBACK_VERS = 'https://a.partner-versicherung.de/click.php?partner_id=204798&ad_id=15&deep=kfz-versicherung';
+      var FALLBACK_KREDIT = 'https://a.partner-versicherung.de/click.php?partner_id=204798&ad_id=15&deep=kredit';
+      var SHARE_TEXT = 'Achtung, für 7,4 Mio. Autos steigen jetzt die Typklassen in der Kfz-Versicherung! Hier kannst du in 10 Sek. prüfen, ob deine Versicherung versteckt erhöht hat + kostenloses Sonderkündigungs-PDF erstellen: https://carintel.de/stichtag.html';
+
+      var aff = (window.CARINTEL_CONFIG && window.CARINTEL_CONFIG.AFFILIATE) || {};
+      var versUrl = aff.TARIFCHECK_VERSICHERUNG_URL || FALLBACK_VERS;
+      var kreditUrl = aff.TARIFCHECK_KREDIT_URL || FALLBACK_KREDIT;
+      document.querySelectorAll('.dynamic-versicherungs-link').forEach(function (a) { a.href = versUrl; });
+      document.querySelectorAll('.dynamic-kredit-link').forEach(function (a) { a.href = kreditUrl; });
+      document.getElementById('btn-whatsapp').href = 'https://wa.me/?text=' + encodeURIComponent(SHARE_TEXT);
+
+      var $ = function (id) { return document.getElementById(id); };
+      var eur = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+      var fmtDate = function (d) { return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }); };
+      var startOfDay = function (d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); };
+
+      // A. Countdown
+      var today = startOfDay(new Date());
+      var stichtag = new Date(today.getFullYear(), 10, 30);
+      var daysLeft = Math.round((stichtag - today) / 86400000);
+      var cd = $('countdown-text');
+      if (daysLeft > 1) cd.innerHTML = 'Noch <strong>' + daysLeft + ' Tage</strong> bis zum Stichtag 30.11. · bei Erhöhung auch im Dezember (§ 40 VVG)';
+      else if (daysLeft === 1) cd.innerHTML = '<strong>Morgen</strong> ist Stichtag 30.11.! · bei Erhöhung auch im Dezember (§ 40 VVG)';
+      else if (daysLeft === 0) cd.innerHTML = '<strong>HEUTE</strong> ist Stichtag 30.11.! · bei Erhöhung auch im Dezember (§ 40 VVG)';
+      else cd.innerHTML = 'Stichtag 30.11. vorbei – <strong>Sonderkündigung nach § 40 VVG</strong> noch 1 Monat ab Rechnungserhalt möglich';
+
+      // B. Rechner
+      var pad = function (n) { return String(n).padStart(2, '0'); };
+      $('letter-date').value = today.getFullYear() + '-' + pad(today.getMonth() + 1) + '-' + pad(today.getDate());
+
+      function addOneMonth(d) {
+        var r = new Date(d.getFullYear(), d.getMonth() + 1, d.getDate());
+        if (r.getDate() !== d.getDate()) r = new Date(d.getFullYear(), d.getMonth() + 2, 0);
+        return r;
+      }
+      function parseNum(v) { var n = parseFloat(String(v).replace(',', '.')); return isNaN(n) ? null : n; }
+
+      var state = { deadline: null, diff: 0, pct: 0, hasRight: false };
+
+      function calc() {
+        var oldP = parseNum($('old-premium').value);
+        var newP = parseNum($('new-premium').value);
+        var sf = $('sf-check').checked;
+        var ld = $('letter-date').value ? new Date($('letter-date').value + 'T00:00:00') : today;
+        var regular = new Date(ld.getFullYear(), 10, 30);
+        var special = addOneMonth(ld);
+        var deadline = special > regular ? special : regular;
+        state.deadline = deadline;
+        $('r-deadline').textContent = fmtDate(deadline);
+
+        var verdict = $('r-verdict');
+        if (oldP === null || newP === null || oldP <= 0) {
+          $('r-diff').textContent = '– €'; $('r-pct').textContent = '– %';
+          $('r-saving').textContent = 'bis 850 €';
+          verdict.className = 'verdict';
+          verdict.textContent = 'Gib deinen alten und neuen Beitrag ein – wir prüfen sofort, ob ein Sonderkündigungsrecht besteht.';
+          return;
+        }
+        var diff = newP - oldP, pct = diff / oldP * 100;
+        state.diff = diff; state.pct = pct;
+        $('r-diff').textContent = (diff > 0 ? '+' : '') + eur.format(diff);
+        $('r-pct').textContent = (pct > 0 ? '+' : '') + pct.toFixed(1).replace('.', ',') + ' %';
+        var saving = Math.min(850, newP * 0.39);
+        $('r-saving').textContent = 'bis ' + eur.format(saving);
+
+        state.hasRight = diff > 0 || sf;
+        if (diff > 0) {
+          verdict.className = 'verdict alert';
+          verdict.innerHTML = '🚨 <strong>Beitragserhöhung erkannt!</strong> Du zahlst ' + eur.format(diff) + ' mehr. Sonderkündigungsrecht nach § 40 VVG – Kündigung bis spätestens <strong>' + fmtDate(deadline) + '</strong> beim Versicherer eingehend.';
+        } else if (sf) {
+          verdict.className = 'verdict alert';
+          verdict.innerHTML = '🕵️ <strong>Versteckte Erhöhung!</strong> Trotz besserer SF-Klasse kein günstigerer Beitrag – das deutet auf eine Tarif-/Typklassen-Erhöhung hin. Sonderkündigung nach § 40 VVG bis <strong>' + fmtDate(deadline) + '</strong> prüfen.';
+        } else {
+          verdict.className = 'verdict';
+          verdict.innerHTML = '✅ Keine Erhöhung erkannt. Ordentliche Kündigung zum Jahresende ist bis <strong>30.11.</strong> möglich – ein Vergleich lohnt sich trotzdem oft.';
+        }
+      }
+      ['old-premium', 'new-premium', 'letter-date'].forEach(function (id) { $(id).addEventListener('input', calc); });
+      $('sf-check').addEventListener('change', calc);
+      calc();
+
+      // D. PDF
+      function val(id, fb) { var v = $(id).value.trim(); return v || fb; }
+      $('btn-print').addEventListener('click', function () {
+        var name = val('f-name', '[Vor- und Nachname]');
+        var street = val('f-street', '[Straße Hausnr.]');
+        var city = val('f-city', '[PLZ Ort]');
+        var plate = val('f-plate', '[Kennzeichen]').toUpperCase();
+        var policy = val('f-policy', '[Versicherungsschein-Nr.]');
+        var insurer = val('f-insurer', '[Name der Versicherung]');
+        var setText = function (id, t) { $(id).textContent = t; };
+        setText('l-sender', name + ' · ' + street + ' · ' + city);
+        $('l-recipient').innerHTML = '';
+        [insurer, 'Kundenservice / Vertragsabteilung'].forEach(function (line) {
+          var div = document.createElement('div'); div.textContent = line; $('l-recipient').appendChild(div);
+        });
+        setText('l-date', city.replace(/^\d{4,5}\s*/, '') + ', ' + fmtDate(new Date()));
+        setText('l-subject', 'Kündigung meiner Kfz-Versicherung – Versicherungsschein-Nr. ' + policy + ', amtl. Kennzeichen ' + plate);
+        var extra = 'Hilfsweise mache ich von meinem Sonderkündigungsrecht nach § 40 VVG Gebrauch und kündige den Vertrag außerordentlich wegen der mir mitgeteilten Beitragserhöhung';
+        if ($('letter-date').value) extra += ' (Schreiben vom ' + fmtDate(new Date($('letter-date').value + 'T00:00:00')) + ')';
+        extra += ' zum Zeitpunkt des Wirksamwerdens der Erhöhung.';
+        setText('l-extra', extra);
+        setText('l-sign', name);
+        window.print();
+      });
+    })();
+  </script>
+</body>
+</html>
