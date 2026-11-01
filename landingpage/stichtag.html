@@ -88,6 +88,15 @@
     .cta-wrap { margin-top: 1.25rem; }
     .privacy { display: inline-block; font-size: 0.8rem; color: #6ee7b7; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.35); padding: 4px 10px; border-radius: 999px; margin-bottom: 1rem; }
     .xmas { border-color: rgba(251,191,36,0.4); background: linear-gradient(180deg, rgba(120,53,15,0.25), rgba(15,23,42,0.95)); }
+    .btn-hero { min-height: 64px; font-size: 1.1rem; box-shadow: 0 0 0 1px rgba(52,211,153,0.5), 0 14px 40px -8px rgba(16,185,129,0.85), 0 0 30px rgba(16,185,129,0.35); }
+    .micro { margin-top: 10px; font-size: 0.82rem; color: #a7f3d0; }
+    .impact { text-align: left; margin: 1.5rem auto 0; max-width: 720px; background: rgba(2,6,23,0.75); border: 1px solid rgba(52,211,153,0.45); border-left: 4px solid var(--cyan); border-radius: 14px; padding: 16px 18px; }
+    .impact h2 { font-size: 1.05rem; margin-bottom: 6px; color: #6ee7b7; }
+    .impact p { font-size: 0.9rem; color: #cbd5e1; }
+    .pills { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.25rem; }
+    @media (min-width: 640px) { .pills { flex-direction: row; flex-wrap: wrap; } }
+    .pill { min-height: 48px; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(56,189,248,0.5); background: rgba(56,189,248,0.1); color: #e0f2fe; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: transform .15s, background .2s; font-family: inherit; text-align: center; }
+    .pill:hover { background: rgba(56,189,248,0.22); transform: translateY(-1px); }
     .ad-tag { font-size: 0.7rem; color: var(--text-muted); text-align: center; margin-top: 6px; }
 
     footer { border-top: 1px solid var(--border-color); padding: 2rem 0 3rem; margin-top: 2rem; background: var(--bg-darker); }
@@ -124,16 +133,30 @@
     <!-- A. Hero -->
     <header class="hero container">
       <div class="countdown" id="countdown-badge">⏳ <span id="countdown-text">Stichtag 30.11.</span></div>
-      <h1>Kfz-Beitragsschock 2026/2027? Prüfe dein Sonderkündigungsrecht in 10 Sekunden</h1>
-      <p class="subtitle">Für 7,4 Mio. Fahrer steigen die Typklassen. Berechne deine versteckte Preiserhöhung, sichere dir bis zu 850 € Ersparnis für dein Weihnachts-Budget und erstelle sofort dein Kündigungs-PDF.</p>
+      <h1>Kfz-Versicherung 2027 teurer? Für 7,4 Mio. Autos steigen jetzt die Typklassen!</h1>
+      <p class="subtitle">Prüfe jetzt sofort ohne Abtippen deine neue Einstufung, sichere dir bis zu 850 € Ersparnis für dein Weihnachts-Budget und nutze bei Bedarf unten unseren kostenlosen § 40 VVG Kündigungs-PDF-Generator.</p>
       <p class="vvg-note">💡 Beitrag erhöht? Nach <strong>§ 40 VVG</strong> kannst du auch nach dem 30.11. – also im gesamten Dezember – kündigen (1 Monat ab Erhalt der Rechnung).</p>
+      <div class="cta-wrap" style="max-width:720px; margin-left:auto; margin-right:auto;">
+        <a href="#" id="cta-hero" class="btn btn-emerald btn-hero dynamic-versicherungs-link" target="_blank" rel="noopener noreferrer">🛡️ Jetzt kostenlos neuen Tarif für 2027 prüfen &amp; bis zu 850 € sparen ↗</a>
+        <div class="ad-tag">[Partnerlink]</div>
+        <p class="micro">✓ 100 % kostenlos &amp; unverbindlich · ✓ Inkl. kostenlosem 1-Klick-Kündigungsservice beim Wechsel · ✓ Fahranfänger- &amp; Familien-Tarife</p>
+      </div>
+      <aside class="impact" aria-labelledby="impact-title">
+        <h2 id="impact-title">🌱 Doppelter Mehrwert: Du sparst – wir fördern die nächste Generation</h2>
+        <p>CarIntel ist für dich zu 100 % kostenlos und werbefrei. Wenn du deinen Tarif über unseren unabhängigen Vergleich wechselst, zahlst du keinen Cent mehr – aber wir setzen 10 % unserer Partner-Vergütung direkt für digitale Jugend-, Medienkompetenz- und Bildungsprojekte der jungen Generation ein. Gemeinsam gegen überteuerte Tarife und für echte Zukunftschancen.</p>
+      </aside>
     </header>
 
     <div class="container">
       <!-- B. Rechner -->
       <section class="card" id="rechner" aria-labelledby="rechner-title">
-        <h2 id="rechner-title">⚡ 10-Sekunden-Beitrags-Check</h2>
-        <p class="lead">Live-Berechnung – ohne Reload, ohne Anmeldung.</p>
+        <h2 id="rechner-title">🧮 Optional: Beitrags-Check &amp; Versteckte-Erhöhungs-Detektor (§ 40 VVG)</h2>
+        <p class="lead">Du hast deinen Brief schon vor dir – oder willst kurz überschlagen, was die Typklassen-Erhöhung bedeutet? Tippe auf einen Schnell-Button oder gib deine Werte ein:</p>
+        <div class="pills" role="group" aria-label="Schnellauswahl">
+          <button type="button" class="pill" data-old="550" data-new="605" data-sf="0">⚡ Beispiel: +10 % Erhöhung (550 € ➔ 605 €)</button>
+          <button type="button" class="pill" data-old="600" data-new="720" data-sf="0">🔥 Beispiel: +20 % Schock (600 € ➔ 720 €)</button>
+          <button type="button" class="pill" data-old="600" data-new="600" data-sf="1">🕵️ Versteckte Erhöhung (SF gestiegen, Preis gleich)</button>
+        </div>
         <div class="grid grid-2">
           <div>
             <label for="old-premium">Alter Beitrag (€ / Jahr oder Halbjahr)</label>
@@ -163,7 +186,7 @@
 
         <!-- C. Primary CTA -->
         <div class="cta-wrap">
-          <a href="#" id="cta-versicherung" class="btn btn-emerald dynamic-versicherungs-link" target="_blank" rel="noopener noreferrer sponsored">🛡️ Schritt 1: Neuen Tarif berechnen &amp; bis zu 850 € sparen (Tarifvergleich ↗)</a>
+          <a href="#" id="cta-versicherung" class="btn btn-emerald dynamic-versicherungs-link" target="_blank" rel="noopener noreferrer sponsored">🛡️ Jetzt neuen Tarif berechnen &amp; Ersparnis sichern ↗</a>
           <div class="ad-tag">[Partnerlink]</div>
           <p class="tip">Tipp: Vergleiche und sichere dir zuerst deinen günstigeren Tarif (inkl. kostenlosem 1-Klick-Wechselservice), bevor du die Kündigung an deinen alten Versicherer absendest.</p>
         </div>
@@ -245,7 +268,7 @@
       'use strict';
       var FALLBACK_VERS = 'https://a.partner-versicherung.de/click.php?partner_id=204798&ad_id=15&deep=kfz-versicherung';
       var FALLBACK_KREDIT = 'https://a.partner-versicherung.de/click.php?partner_id=204798&ad_id=15&deep=kredit';
-      var SHARE_TEXT = 'Achtung, für 7,4 Mio. Autos steigen jetzt die Typklassen in der Kfz-Versicherung! Hier kannst du in 10 Sek. prüfen, ob deine Versicherung versteckt erhöht hat + kostenloses Sonderkündigungs-PDF erstellen: https://carintel.de/stichtag.html';
+      var SHARE_TEXT = 'Achtung, für 7,4 Mio. Autos steigen jetzt die Typklassen in der Kfz-Versicherung! Hier kannst du mit 1 Klick deine neue Einstufung für 2027 prüfen, kostenlos ein Sonderkündigungs-PDF erstellen und unterstützt nebenbei noch digitale Jugendprojekte: https://carintel.de/stichtag.html';
 
       var aff = (window.CARINTEL_CONFIG && window.CARINTEL_CONFIG.AFFILIATE) || {};
       var versUrl = aff.TARIFCHECK_VERSICHERUNG_URL || FALLBACK_VERS;
@@ -322,6 +345,15 @@
       }
       ['old-premium', 'new-premium', 'letter-date'].forEach(function (id) { $(id).addEventListener('input', calc); });
       $('sf-check').addEventListener('change', calc);
+      document.querySelectorAll('.pill').forEach(function (p) {
+        p.addEventListener('click', function () {
+          $('old-premium').value = p.getAttribute('data-old');
+          $('new-premium').value = p.getAttribute('data-new');
+          $('sf-check').checked = p.getAttribute('data-sf') === '1';
+          calc();
+          $('r-verdict').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      });
       calc();
 
       // D. PDF
@@ -350,5 +382,8 @@
       });
     })();
   </script>
+  <!-- Cloudflare Web Analytics -->
+  <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "da358a85772d4b87905987454092546f"}'></script>
+  <!-- End Cloudflare Web Analytics -->
 </body>
 </html>
