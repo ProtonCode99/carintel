@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Kfz-Stichtag 30.11. – Sonderkündigungs-Rechner & PDF (§ 40 VVG) | CarIntel</title>
   <meta name="description" content="Kfz-Versicherung erhöht? Prüfe in 10 Sekunden dein Sonderkündigungsrecht nach § 40 VVG, berechne die versteckte Beitragserhöhung und erstelle kostenlos dein Kündigungs-PDF – 100 % lokal im Browser.">
   <meta property="og:title" content="Kfz-Beitragsschock? Sonderkündigungs-Rechner + PDF-Generator">
@@ -105,7 +105,20 @@
     .footer-text { font-size: 0.8rem; color: var(--text-muted); }
     .footer-copyright { font-size: 0.8rem; color: #64748b; margin-top: 1rem; }
 
-    #print-letter { display: none; }
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    img, svg, iframe { max-width: 100%; }
+    #print-letter { display: none; box-sizing: border-box; width: 100%; }
+    @media (max-width: 768px) {
+      .container { padding-left: 16px; padding-right: 16px; }
+      .card { padding: 18px; }
+      .grid, .grid-2, .result { grid-template-columns: 1fr !important; }
+      .pills { flex-direction: column !important; }
+      .pill, .btn { width: 100%; min-height: 48px; font-size: 16px; }
+      input[type=number], input[type=text], input[type=date] { font-size: 16px; }
+      body, p, label, .lead, .subtitle, .vvg-note, .tip, .micro, .impact p, .verdict, .footer-text, .check { font-size: 16px; }
+      .footer-links { flex-direction: column; gap: 0.5rem; }
+      .countdown { font-size: 0.95rem; }
+    }
     @media print {
       body { background: #fff !important; color: #000 !important; }
       body > *:not(#print-letter) { display: none !important; }
